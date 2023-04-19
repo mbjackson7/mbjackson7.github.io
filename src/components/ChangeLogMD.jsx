@@ -7,18 +7,14 @@ export default function ChangeLogMD() {
   const [post, setPost] = useState("");
 
   useEffect(() => {
-    import(`../${file_name}`)
-      .then((res) => {
-        fetch(res.default)
-          .then((res) => res.text())
-          .then((res) => setPost(res))
-          .catch((err) => console.log(err));
-      })
+    fetch(`/${file_name}`)
+      .then((res) => res.text())
+      .then((res) => setPost(res))
       .catch((err) => console.log(err));
-  });
+  }, []);
 
   return (
-    <div sx={{ paddingInline: "2vw" }}>
+    <div className="p-5">
       <Markdown>{post}</Markdown>
     </div>
   );

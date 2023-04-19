@@ -6,7 +6,7 @@ import ChangeLog from "./pages/ChangeLog";
 
 function App() {
   return (
-    <HashRouter>
+    <HashRouter >
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/projects" element={<Projects />} />

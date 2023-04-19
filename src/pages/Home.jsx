@@ -6,10 +6,9 @@ import { Link } from "react-router-dom";
 export default function Home() {
   return (
     <StandardPage>
-      <div className="m-10 min-h-screen">
+      <div className="p-10 min-h-full">
         <div className="m-5">
-          <p>Hi, I'm Morgan</p>
-          <br/>
+          <p className="text-3xl mb-4">Hi, I'm Morgan</p>
           <p>
             Welcome to my portfolio! This portfolio is a project I 
             started to better showcase my current and future projects, as well
@@ -18,7 +17,7 @@ export default function Home() {
           </p>
         </div>
         <img
-          className="rounded-3xl h-[40vh]"
+          className="rounded-3xl h-[40vh] object-cover"
           src={profileImage}
           alt="Me"
         />
