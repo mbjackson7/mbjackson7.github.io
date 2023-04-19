@@ -7,6 +7,7 @@ module.exports = {
     colors: {
       'white': '#ffffff',
       'black': '#000000',
+      'gray': '#A3A3A3',
       'bg': '#F3F3F3',
       'primary': '#A1D8F9',
       'secondary': '#F96E46',
@@ -18,7 +19,13 @@ module.exports = {
       'sans': ['Roboto', 'sans-serif'],
       'urbanist': ['Urbanist', 'sans-serif'],
     },
-    extend: {},
+    extend: {
+      aspectRatio: {
+        '4/3': '4 / 3',
+        '3/4': '3 / 4',
+        '3/5': '3 / 5',
+      },
+    },
   },
   plugins: [],
 }
