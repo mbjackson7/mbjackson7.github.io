@@ -1,6 +1,7 @@
 import React from "react";
 import URCA from "../assets/MattaURCA.png";
 import AoC from "../assets/AdventOfCodeLogo.png";
+import oRDS from "../assets/ordsSurveyBuilder.png";
 import Sudoku from "../assets/sudokuGame.png";
 import StandardPage from "../components/wrappers/StandardPage";
 import ProjectCard from "../components/ProjectCard";
@@ -13,10 +14,10 @@ export default function Projects() {
         <div className="w-full flex flex-row flex-wrap gap-5 p-5 overflow-x-hidden">
           <ProjectCard
             title="o-RDS"
-            src={URCA}
+            src={oRDS}
             url="https://github.com/o-RDS"
           >
-            Open-source Respondent Driven Sampling, Senior Project
+            Open-source Respondent Driven Sampling, Senior Project with React and Express.js
           </ProjectCard>
 
           <ProjectCard
@@ -24,7 +25,7 @@ export default function Projects() {
             src={URCA}
             url="https://github.com/MattaURCA-S22/MicrAgg-WebApp"
           >
-            A React webapp for Dr. Jayashree George's research
+            A React webapp for Dr. Jayashree George's research on microaggressions
           </ProjectCard>
 
           <ProjectCard
@@ -32,7 +33,7 @@ export default function Projects() {
             src={AoC}
             url="https://github.com/mbjackson7/adventOfCode"
           >
-            Participated in Advent of Code
+            My solution for the annual coding challenge Advent of Code
           </ProjectCard>
 
           <ProjectCard
