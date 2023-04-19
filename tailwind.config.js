@@ -11,7 +11,12 @@ module.exports = {
       'primary': '#A1D8F9',
       'secondary': '#F96E46',
       'tertiary': '#F9C846',
+      'quaternary': '#AFF8C6',
       'text': '#000000',
+    },
+    fontFamily: {
+      'sans': ['Roboto', 'sans-serif'],
+      'urbanist': ['Urbanist', 'sans-serif'],
     },
     extend: {},
   },

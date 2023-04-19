@@ -1,21 +1,30 @@
 import React from "react";
 import URCA from "../assets/MattaURCA.png";
 import AoC from "../assets/AdventOfCodeLogo.png";
+import Sudoku from "../assets/sudokuGame.png";
 import StandardPage from "../components/wrappers/StandardPage";
 import ProjectCard from "../components/ProjectCard";
 
 export default function Projects() {
   return (
     <StandardPage>
-      <div className="pl-5 overflow-x-hidden">
+      <div className="p-5 overflow-x-hidden">
         <h1 className="">Projects</h1>
         <div className="w-full flex flex-row flex-wrap gap-5 p-5 overflow-x-hidden">
           <ProjectCard
-            title="URCA Project"
+            title="o-RDS"
+            src={URCA}
+            url="https://github.com/o-RDS"
+          >
+            Open-source Respondent Driven Sampling, Senior Project
+          </ProjectCard>
+
+          <ProjectCard
+            title="Dr. George Survey App"
             src={URCA}
             url="https://github.com/MattaURCA-S22/MicrAgg-WebApp"
           >
-            Part of my current independent study!
+            A React webapp for Dr. Jayashree George's research
           </ProjectCard>
 
           <ProjectCard
@@ -23,15 +32,15 @@ export default function Projects() {
             src={AoC}
             url="https://github.com/mbjackson7/adventOfCode"
           >
-            Participated in the 2021 Advent of Code
+            Participated in Advent of Code
           </ProjectCard>
 
           <ProjectCard
-            title="Crowgenium"
-            src="https://crowgenium.weebly.com/uploads/1/4/0/0/140099879/crowgeniumwhite_orig.png"
-            url="https://crowgenium.weebly.com"
+            title="Sudoku"
+            src={Sudoku}
+            url="https://github.com/mbjackson7/sudoku"
           >
-            HCI Design Project
+            Sudoku game, generator, and solver made in Python
           </ProjectCard>
 
           <ProjectCard

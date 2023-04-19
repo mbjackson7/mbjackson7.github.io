@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 export default function Logo(props) {
   return (
     <div className={`${props.className} h-full w-full flex flex-col justify-center bg-secondary hover:bg-tertiary`}>
-      <Link to="/" className="h-full w-full grid grid-cols-7 grid-rows-7 text-[1.8vmin] text-center">
+      <Link to="/" className="h-full w-full grid grid-cols-7 grid-rows-7 text-[1.8vmin] text-center font-bold">
         <p className="col-start-2 row-start-2">M</p>
         <p className="col-start-2 row-start-3">O</p>
         <p className="col-start-2 row-start-4">R</p>

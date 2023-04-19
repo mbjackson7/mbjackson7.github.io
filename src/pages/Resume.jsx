@@ -1,6 +1,5 @@
 import React from "react";
 import resume from "../assets/MorganJacksonResume.pdf";
-import resumeImg from "../assets/MorganJacksonResume.png";
 import StandardPage from "../components/wrappers/StandardPage";
 
 export default function Resume() {
