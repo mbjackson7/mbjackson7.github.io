@@ -31,12 +31,12 @@ h1 {
 
 .spinner {
   transform-style: preserve-3d;
-  animation: spin 0.75s linear;
+  animation: spin 1s linear;
 }
 
 @keyframes spin {
-  from { transform: rotateY(0turn); }
-  to { transform: rotateY(1turn); }
+  from { transform: rotate3d(0,0, 0,0deg); }
+  to { transform: rotate3d(-1,1, 0,-360deg); }
 }
 
 .anim-delay-0 {
