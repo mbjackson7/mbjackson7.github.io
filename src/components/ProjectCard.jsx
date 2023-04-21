@@ -3,14 +3,23 @@ import { Link } from "react-router-dom";
 
 export default function ProjectCard(props) {
   return (
-    <div className="w-[40vh] aspect-3/4 bg-white border-2 border-black p-8 hover:scale-105 hover:bg-tertiary">
-      <a href={props.url} className="">
-        <img src={props.src} className="w-full h-1/2 object-stretch border-2 bg-bg hover:scale-125" alt={props.title} />
-        <div className="">
-          <p className="font-bold">{props.title}</p>
-          <p className="h-1/6 text-sm">{props.children}</p>
+    <a href={props.url} className="">
+      <div className="w-[40vh] aspect-3/4 [perspective:256vmin] bg-transparent group">
+        <div className="w-full h-full relative flip-card-inner group-hover:[transform:rotateY(180deg)]">
+          <div className="w-full h-full bg-white border-2 border-black p-8 hide-back">
+            <img
+              src={props.src}
+              className="w-full h-1/2 object-stretch border-2 bg-bg"
+              alt={props.title}
+            />
+            <div className="">
+              <p className="font-bold">{props.title}</p>
+              <p className="h-1/6 text-sm">{props.children}</p>
+            </div>
+          </div>
+          <div className="w-full h-full bg-white border-2 border-black p-8 hide-back [transform:rotateY(180deg)]"></div>
         </div>
-      </a>
-    </div>
+      </div>
+    </a>
   );
 }
