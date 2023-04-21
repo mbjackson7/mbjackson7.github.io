@@ -1,7 +1,7 @@
 import React from "react";
 import logo from "../assets/logo.png";
 import { Link } from "react-router-dom";
-import Logo from "./Logo";
+import Logo from "./Logo3D";
 
 export default function NavBar() {
   return (

@@ -28,3 +28,48 @@ h1 {
   font-size: 2em;
   line-height: 1;
 }
+
+.spinner {
+  transform-style: preserve-3d;
+  animation: spin 0.75s linear;
+}
+
+@keyframes spin {
+  from { transform: rotateY(0turn); }
+  to { transform: rotateY(1turn); }
+}
+
+.anim-delay-0 {
+  animation-delay: 0s;
+}
+.anim-delay-100 {
+  animation-delay: 100ms;
+}
+.anim-delay-200 {
+  animation-delay: 200ms;
+}
+.anim-delay-300 {
+  animation-delay: 300ms;
+}
+.anim-delay-400 {
+  animation-delay: 400ms;
+}
+.anim-delay-500 {
+  animation-delay: 500ms;
+}
+.anim-delay-600 {
+  animation-delay: 600ms;
+}
+.anim-delay-700 {
+  animation-delay: 700ms;
+}
+.anim-delay-800 {
+  animation-delay: 800ms;
+}
+.anim-delay-900 {
+  animation-delay: 900ms;
+}
+.anim-delay-1000 {
+  animation-delay: 1000ms;
+}
+
