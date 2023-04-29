@@ -75,7 +75,9 @@ export default function Resume() {
   };
 
   const Choice = (props) => {
-    let className = `grid place-items-center text-xl col-start-${props.num}`;
+    let className = `grid place-items-center text-xl col-start-${props.num} ${
+      selectedSpace ? "" : "text-gray"
+    } ${board[selectedSpace] === 0 ? "" : "text-gray"}`;
     return (
       <div className={className} onClick={() => props.check(props.num)}>
         {props.num}
@@ -89,6 +91,19 @@ export default function Resume() {
       choices.push(<Choice num={i} check={check} />);
     }
     return choices;
+  };
+
+  const StyledButton = (props) => {
+    return (
+      <button
+        className={`h-10 w-20 bg-${
+          props.color ? props.color : "tertiary"
+        } border`}
+        onClick={props.onClick}
+      >
+        {props.children}
+      </button>
+    );
   };
 
   const fetchBoard = async (id, difficulty) => {
@@ -124,6 +139,9 @@ export default function Resume() {
 
   const check = async (num) => {
     if (selectedSpace === null) {
+      return;
+    }
+    if (board[selectedSpace] !== 0) {
       return;
     }
     const row = Math.floor(selectedSpace / 9);
@@ -168,7 +186,10 @@ export default function Resume() {
     solve();
     setBoard(null);
     setStrikes(0);
-    setId(uuidv4());
+    let id = uuidv4();
+    setId(id);
+    localStorage.setItem("id", id);
+    setSelectedSpace(null);
     setGameOver(false);
   };
 
@@ -177,7 +198,7 @@ export default function Resume() {
       {loading ? (
         <Loading />
       ) : (
-        <div className="h-full w-full flex flex-col align-middle items-center justify-center p-5">
+        <div className="h-full w-full flex flex-col align-middle items-center justify-center pt-5">
           {board ? (
             <div>
               <div className="grid grid-cols-9 grid-rows-9 text-center aspect-square max-w-[70vmin] w-[70vmin] h-[70vmin] border-2 m-2">
@@ -186,32 +207,19 @@ export default function Resume() {
                   selectedSpace={selectedSpace}
                 />
               </div>
-              <div className="grid grid-cols-9 grid-rows-1 text-center max-w-[70vmin] w-[70vmin] m-2">
+              <div
+                className={`grid grid-cols-9 grid-rows-1 text-center max-w-[70vmin] w-[70vmin] m-2 `}
+              >
                 {renderChoices(check)}
               </div>
               {!gameOver ? (
                 <div className="flex flex-row justify-center gap-5 max-w-[70vmin] w-[70vmin] m-2">
-                  <button
-                    className="h-10 w-20 bg-tertiary border"
-                    onClick={hint}
-                  >
-                    Hint
-                  </button>
-                  <button
-                    className="h-10 w-20 bg-tertiary border"
-                    onClick={solve}
-                  >
-                    Solve
-                  </button>
+                  <StyledButton onClick={hint}>Hint</StyledButton>
+                  <StyledButton onClick={solve}>Solve</StyledButton>
                 </div>
               ) : (
                 <div className="flex flex-row justify-center gap-5 max-w-[70vmin] w-[70vmin] m-2">
-                  <button
-                    className="h-10 w-20 bg-tertiary border"
-                    onClick={reset}
-                  >
-                    Reset
-                  </button>
+                  <StyledButton onClick={reset}>Reset</StyledButton>
                 </div>
               )}
               <div className="flex flex-row justify-between max-w-[70vmin] w-[70vmin] m-2">
@@ -227,24 +235,24 @@ export default function Resume() {
             <div className="flex flex-col items-center">
               <p>Sudoku</p>
               <div className="h-full w-full flex items-center justify-center gap-5 p-5">
-                <button
-                  className="h-10 w-20 bg-quaternary border"
+                <StyledButton
+                  color="quaternary"
                   onClick={() => fetchBoard(id, 55)}
                 >
                   Easy
-                </button>
-                <button
-                  className="h-10 w-20 bg-tertiary border"
+                </StyledButton>
+                <StyledButton
+                  color="tertiary"
                   onClick={() => fetchBoard(id, 40)}
                 >
                   Medium
-                </button>
-                <button
-                  className="h-10 w-20 bg-secondary border"
+                </StyledButton>
+                <StyledButton
+                  color="secondary"
                   onClick={() => fetchBoard(id, 15)}
                 >
                   Hard
-                </button>
+                </StyledButton>
               </div>
             </div>
           )}
