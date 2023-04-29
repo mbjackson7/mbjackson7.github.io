@@ -31,10 +31,10 @@ h1 {
 
 .spinner {
   transform-style: preserve-3d;
-  animation: spin 1s linear;
+  animation: flip 1s linear;
 }
 
-@keyframes spin {
+@keyframes flip {
   from { transform: rotate3d(0,0, 0,0deg); }
   to { transform: rotate3d(-1,1, 0,-360deg); }
 }
