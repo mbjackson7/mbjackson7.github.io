@@ -76,7 +76,7 @@ export default function Resume() {
 
   const Choice = (props) => {
     let className = `grid place-items-center text-xl col-start-${props.num} ${
-      selectedSpace ? "" : "text-gray"
+      selectedSpace === null ? "" : "text-gray"
     } ${board[selectedSpace] === 0 ? "" : "text-gray"}`;
     return (
       <div className={className} onClick={() => props.check(props.num)}>
