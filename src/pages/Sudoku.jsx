@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from "uuid";
 import Loading from "../components/Loading";
 
 export default function Resume() {
-  const [board, setBoard] = useState([]);
+  const [board, setBoard] = useState(null);
   const [id, setId] = useState("");
   const [time, setTime] = useState(0);
   const [maxStrikes, setMaxStrikes] = useState(3);
