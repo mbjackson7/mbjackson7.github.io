@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import StandardPage from "../components/wrappers/StandardPage";
 import { v4 as uuidv4 } from "uuid";
+import Loading from "../components/Loading";
 
 export default function Resume() {
   const [board, setBoard] = useState([]);
@@ -11,6 +12,7 @@ export default function Resume() {
   const [remaining, setRemaining] = useState(81);
   const [selectedSpace, setSelectedSpace] = useState(null);
   const [gameOver, setGameOver] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     let id = localStorage.getItem("id");
@@ -53,7 +55,7 @@ export default function Resume() {
     return board.map((num, index) => {
       let row = Math.floor(index / 9);
       let col = index % 9;
-      let className = `grid place-items-center text-xl h-full row-start-${
+      let className = `grid place-items-center text-[3.5vmin] h-full row-start-${
         row + 1
       } col-start-${col + 1} border ${col % 3 == 0 ? "border-l-2" : ""} ${
         col % 3 == 2 ? "border-r-2" : ""
@@ -90,6 +92,7 @@ export default function Resume() {
   };
 
   const fetchBoard = async (id, difficulty) => {
+    setLoading(true);
     const response = await fetch(
       `https://sudoku-production-d97b.up.railway.app/start/${id}/${difficulty}`
     );
@@ -97,8 +100,9 @@ export default function Resume() {
     console.log(data);
     setBoard(data.board);
     setRemaining(data.remaining);
-    setMaxStrikes(data.maxStrikes);
+    setMaxStrikes(data.max_strikes);
     setGameOver(false);
+    setLoading(false);
   };
 
   const resumeGame = async (id) => {
@@ -114,7 +118,7 @@ export default function Resume() {
     }
     setBoard(data.board);
     setRemaining(data.remaining);
-    setMaxStrikes(data.maxStrikes);
+    setMaxStrikes(data.max_strikes);
     setStrikes(data.strikes);
   };
 
@@ -128,14 +132,12 @@ export default function Resume() {
       `https://sudoku-production-d97b.up.railway.app/check/${id}/${row}/${col}/${num}`
     );
     const data = await response.json();
+    console.log(data);
     setBoard(data.board);
     setRemaining(data.remaining);
     setStrikes(data.strikes);
     setSelectedSpace(null);
-    if (data.remaining === 0) {
-      setGameOver(true);
-    }
-    if (data.gameOver) {
+    if (data.game_over) {
       setGameOver(true);
     }
   };
@@ -172,73 +174,82 @@ export default function Resume() {
 
   return (
     <StandardPage>
-      <div className="h-full w-full flex flex-col align-middle items-center justify-center p-5">
-        {board ? (
-          <div>
-            <div className="grid grid-cols-9 grid-rows-9 text-center aspect-square max-w-[70vmin] w-[70vmin] h-[70vmin] border-2 m-2">
-              <Board
-                setSpace={setSelectedSpace}
-                selectedSpace={selectedSpace}
-              />
+      {loading ? (
+        <Loading />
+      ) : (
+        <div className="h-full w-full flex flex-col align-middle items-center justify-center p-5">
+          {board ? (
+            <div>
+              <div className="grid grid-cols-9 grid-rows-9 text-center aspect-square max-w-[70vmin] w-[70vmin] h-[70vmin] border-2 m-2">
+                <Board
+                  setSpace={setSelectedSpace}
+                  selectedSpace={selectedSpace}
+                />
+              </div>
+              <div className="grid grid-cols-9 grid-rows-1 text-center max-w-[70vmin] w-[70vmin] m-2">
+                {renderChoices(check)}
+              </div>
+              {!gameOver ? (
+                <div className="flex flex-row justify-center gap-5 max-w-[70vmin] w-[70vmin] m-2">
+                  <button
+                    className="h-10 w-20 bg-tertiary border"
+                    onClick={hint}
+                  >
+                    Hint
+                  </button>
+                  <button
+                    className="h-10 w-20 bg-tertiary border"
+                    onClick={solve}
+                  >
+                    Solve
+                  </button>
+                </div>
+              ) : (
+                <div className="flex flex-row justify-center gap-5 max-w-[70vmin] w-[70vmin] m-2">
+                  <button
+                    className="h-10 w-20 bg-tertiary border"
+                    onClick={reset}
+                  >
+                    Reset
+                  </button>
+                </div>
+              )}
+              <div className="flex flex-row justify-between max-w-[70vmin] w-[70vmin] m-2">
+                <div className="flex flex-col">
+                  <p>Remaining: {remaining}</p>
+                  <p>
+                    Strikes: {strikes}/{maxStrikes}
+                  </p>
+                </div>
+              </div>
             </div>
-            <div className="grid grid-cols-9 grid-rows-1 text-center max-w-[70vmin] w-[70vmin] m-2">
-              {renderChoices(check)}
-            </div>
-            {!gameOver ? (
-              <div className="flex flex-row justify-center gap-5 max-w-[70vmin] w-[70vmin] m-2">
-                <button className="h-10 w-20 bg-tertiary border" onClick={hint}>
-                  Hint
+          ) : (
+            <div className="flex flex-col items-center">
+              <p>Sudoku</p>
+              <div className="h-full w-full flex items-center justify-center gap-5 p-5">
+                <button
+                  className="h-10 w-20 bg-quaternary border"
+                  onClick={() => fetchBoard(id, 55)}
+                >
+                  Easy
                 </button>
                 <button
                   className="h-10 w-20 bg-tertiary border"
-                  onClick={solve}
+                  onClick={() => fetchBoard(id, 40)}
                 >
-                  Solve
+                  Medium
                 </button>
-              </div>
-            ) : (
-              <div className="flex flex-row justify-center gap-5 max-w-[70vmin] w-[70vmin] m-2">
                 <button
-                  className="h-10 w-20 bg-tertiary border"
-                  onClick={reset}
+                  className="h-10 w-20 bg-secondary border"
+                  onClick={() => fetchBoard(id, 15)}
                 >
-                  Reset
+                  Hard
                 </button>
               </div>
-            )}
-            <div className="flex flex-row justify-between max-w-[70vmin] w-[70vmin] m-2">
-              <div className="flex flex-col">
-                <p>Remaining: {remaining}</p>
-                <p>Strikes: {strikes}</p>
-              </div>
             </div>
-          </div>
-        ) : (
-          <div className="flex flex-col items-center">
-            <p>Sudoku</p>
-            <div className="h-full w-full flex items-center justify-center gap-5 p-5">
-              <button
-                className="h-10 w-20 bg-quaternary border"
-                onClick={() => fetchBoard(id, 55)}
-              >
-                Easy
-              </button>
-              <button
-                className="h-10 w-20 bg-tertiary border"
-                onClick={() => fetchBoard(id, 40)}
-              >
-                Medium
-              </button>
-              <button
-                className="h-10 w-20 bg-secondary border"
-                onClick={() => fetchBoard(id, 15)}
-              >
-                Hard
-              </button>
-            </div>
-          </div>
-        )}
-      </div>
+          )}
+        </div>
+      )}
     </StandardPage>
   );
 }
