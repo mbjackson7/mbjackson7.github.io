@@ -13,6 +13,7 @@ export default function Resume() {
   const [selectedSpace, setSelectedSpace] = useState(null);
   const [gameOver, setGameOver] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [selectionColor, setSelectionColor] = useState("tertiary");
 
   useEffect(() => {
     let id = localStorage.getItem("id");
@@ -26,11 +27,24 @@ export default function Resume() {
     }
   }, []);
 
+  useEffect(() => {
+    document.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  });
+
+  const handleKeyDown = (e) => {
+    if (e.key >= 1 && e.key <= 9) {
+      check(parseInt(e.key));
+    }
+  };
+
   const Space = (props) => {
     const [className, setClassName] = useState(props.className);
     useEffect(() => {
       if (props.index == props.selectedSpace) {
-        setClassName(`${className} bg-tertiary`);
+        setClassName(`${className} bg-${selectionColor}`);
       }
     }, []);
     const toggleSelection = (key) => {
@@ -38,13 +52,13 @@ export default function Resume() {
       props.setSpace(key);
     };
     return (
-      <div
+      <button
         key={props.index}
         className={className}
         onClick={() => toggleSelection(props.index)}
       >
         {props.num === 0 ? "" : props.num}
-      </div>
+      </button>
     );
   };
 
@@ -55,18 +69,17 @@ export default function Resume() {
     return board.map((num, index) => {
       let row = Math.floor(index / 9);
       let col = index % 9;
-      let className = `grid place-items-center text-[3.5vmin] min-h-[7.7vmin] h-full row-start-${
-        row + 1
-      } col-start-${col + 1} border ${col % 3 == 0 ? "border-l-2" : ""} ${
-        col % 3 == 2 ? "border-r-2" : ""
-      } ${row % 3 == 0 ? "border-t-2" : ""} ${
-        row % 3 == 2 ? "border-b-2" : ""
-      } border-black`;
       return (
         <Space
           num={num}
           index={index}
-          className={className}
+          className={`grid place-items-center text-[3.5vmin] min-h-[7.7vmin] h-full row-start-${
+            row + 1
+          } col-start-${col + 1} border ${col % 3 == 0 ? "border-l-2" : ""} ${
+            col % 3 == 2 ? "border-r-2" : ""
+          } ${row % 3 == 0 ? "border-t-2" : ""} ${
+            row % 3 == 2 ? "border-b-2" : ""
+          } border-black`}
           setSpace={props.setSpace}
           selectedSpace={selectedSpace}
         />
@@ -76,12 +89,12 @@ export default function Resume() {
 
   const Choice = (props) => {
     let className = `grid place-items-center text-xl col-start-${props.num} ${
-      selectedSpace === null ? "" : "text-gray"
+      selectedSpace !== null ? "" : "text-gray"
     } ${board[selectedSpace] === 0 ? "" : "text-gray"}`;
     return (
-      <div className={className} onClick={() => props.check(props.num)}>
+      <button className={className} onClick={() => props.check(props.num)}>
         {props.num}
-      </div>
+      </button>
     );
   };
 
@@ -112,7 +125,9 @@ export default function Resume() {
       `https://sudoku-production-d97b.up.railway.app/start/${id}/${difficulty}`
     );
     const data = await response.json();
-    console.log(data);
+    if (data.board === null) {
+      resumeGame(localStorage.hetItem("id"));
+    }
     setBoard(data.board);
     setRemaining(data.remaining);
     setMaxStrikes(data.max_strikes);
@@ -154,10 +169,15 @@ export default function Resume() {
     setBoard(data.board);
     setRemaining(data.remaining);
     setStrikes(data.strikes);
-    setSelectedSpace(null);
     if (data.game_over) {
       setGameOver(true);
     }
+    if (strikes < data.strikes) {
+      setSelectionColor("secondary");
+      await sleep(200);
+      setSelectionColor("tertiary");
+    }
+    setSelectedSpace(null);
   };
 
   const hint = async () => {
@@ -191,6 +211,10 @@ export default function Resume() {
     localStorage.setItem("id", id);
     setSelectedSpace(null);
     setGameOver(false);
+  };
+
+  const sleep = (ms) => {
+    return new Promise((resolve) => setTimeout(resolve, ms));
   };
 
   return (
