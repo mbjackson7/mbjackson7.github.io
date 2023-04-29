@@ -14,6 +14,7 @@ export default function Resume() {
   const [gameOver, setGameOver] = useState(false);
   const [loading, setLoading] = useState(false);
   const [selectionColor, setSelectionColor] = useState("tertiary");
+  const [boardColor, setBoardColor] = useState("bg");
 
   useEffect(() => {
     let id = localStorage.getItem("id");
@@ -33,6 +34,19 @@ export default function Resume() {
       document.removeEventListener("keydown", handleKeyDown);
     };
   });
+
+  useEffect(() => {
+    if (gameOver) {
+      if (strikes === maxStrikes) {
+        setBoardColor("secondary");
+      }
+      if (remaining === 0) {
+        setBoardColor("quaternary");
+      }
+    } else {
+      setBoardColor("bg");
+    }
+  }, [gameOver]);
 
   const handleKeyDown = (e) => {
     if (e.key >= 1 && e.key <= 9) {
@@ -144,12 +158,15 @@ export default function Resume() {
       id = uuidv4();
       setId(id);
       localStorage.setItem("id", id);
+      setBoard(null);
       return;
     }
     setBoard(data.board);
     setRemaining(data.remaining);
     setMaxStrikes(data.max_strikes);
-    setStrikes(data.strikes);
+    if (data.strikes !== undefined) {
+      setStrikes(data.strikes);
+    }
   };
 
   const check = async (num) => {
@@ -168,6 +185,7 @@ export default function Resume() {
     console.log(data);
     setBoard(data.board);
     setRemaining(data.remaining);
+    console.log(data.strikes)
     setStrikes(data.strikes);
     if (data.game_over) {
       setGameOver(true);
@@ -187,6 +205,7 @@ export default function Resume() {
     const data = await response.json();
     setBoard(data.board);
     setRemaining(data.remaining);
+    setSelectedSpace(null);
     if (data.remaining === 0) {
       setGameOver(true);
     }
@@ -198,7 +217,6 @@ export default function Resume() {
     );
     const data = await response.json();
     setBoard(data.board);
-    setRemaining(0);
     setGameOver(true);
   };
 
@@ -225,7 +243,7 @@ export default function Resume() {
         <div className="h-full w-full flex flex-col align-middle items-center justify-center pt-5">
           {board ? (
             <div>
-              <div className="grid grid-cols-9 grid-rows-9 text-center aspect-square max-w-[70vmin] w-[70vmin] h-[70vmin] border-2 m-2">
+              <div className={`grid grid-cols-9 grid-rows-9 text-center aspect-square max-w-[70vmin] w-[70vmin] h-[70vmin] border-2 m-2 bg-${boardColor}`}>
                 <Board
                   setSpace={setSelectedSpace}
                   selectedSpace={selectedSpace}
