@@ -55,7 +55,7 @@ export default function Resume() {
     return board.map((num, index) => {
       let row = Math.floor(index / 9);
       let col = index % 9;
-      let className = `grid place-items-center text-[3.5vmin] h-full row-start-${
+      let className = `grid place-items-center text-[3.5vmin] min-h-[7.7vmin] h-full row-start-${
         row + 1
       } col-start-${col + 1} border ${col % 3 == 0 ? "border-l-2" : ""} ${
         col % 3 == 2 ? "border-r-2" : ""
