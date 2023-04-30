@@ -13,8 +13,8 @@ export default function Resume() {
   const [selectedSpace, setSelectedSpace] = useState(null);
   const [gameOver, setGameOver] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [selectionColor, setSelectionColor] = useState("tertiary");
-  const [boardColor, setBoardColor] = useState("bg");
+  const [selectionColor, setSelectionColor] = useState("bg-tertiary");
+  const [boardColor, setBoardColor] = useState("bg-bg");
 
   useEffect(() => {
     let id = localStorage.getItem("id");
@@ -38,15 +38,19 @@ export default function Resume() {
   useEffect(() => {
     if (gameOver) {
       if (strikes === maxStrikes) {
-        setBoardColor("secondary");
+        setBoardColor("bg-secondary");
       }
       if (remaining === 0) {
-        setBoardColor("quaternary");
+        setBoardColor("bg-quaternary");
       }
     } else {
-      setBoardColor("bg");
+      setBoardColor("bg-bg");
     }
   }, [gameOver]);
+
+  useEffect(() => {
+    setSelectionColor("bg-tertiary");
+  }, [selectedSpace]);
 
   const handleKeyDown = (e) => {
     if (e.key >= 1 && e.key <= 9) {
@@ -58,7 +62,7 @@ export default function Resume() {
     const [className, setClassName] = useState(props.className);
     useEffect(() => {
       if (props.index == props.selectedSpace) {
-        setClassName(`${className} bg-${selectionColor}`);
+        setClassName(`${className} ${selectionColor}`);
       }
     }, []);
     const toggleSelection = (key) => {
@@ -123,8 +127,8 @@ export default function Resume() {
   const StyledButton = (props) => {
     return (
       <button
-        className={`h-10 w-20 bg-${
-          props.color ? props.color : "tertiary"
+        className={`h-10 w-20 ${
+          props.color ? props.color : "bg-tertiary"
         } border`}
         onClick={props.onClick}
       >
@@ -191,9 +195,9 @@ export default function Resume() {
       setGameOver(true);
     }
     if (strikes < data.strikes) {
-      setSelectionColor("secondary");
+      setSelectionColor("bg-secondary");
       await sleep(200);
-      setSelectionColor("tertiary");
+      setSelectionColor("bg-tertiary");
     }
     setSelectedSpace(null);
   };
@@ -243,7 +247,7 @@ export default function Resume() {
         <div className="h-full w-full flex flex-col align-middle items-center justify-center pt-5">
           {board ? (
             <div>
-              <div className={`grid grid-cols-9 grid-rows-9 text-center aspect-square max-w-[70vmin] w-[70vmin] h-[70vmin] border-2 m-2 bg-${boardColor}`}>
+              <div className={`grid grid-cols-9 grid-rows-9 text-center aspect-square max-w-[70vmin] w-[70vmin] h-[70vmin] border-2 m-2 ${boardColor}`}>
                 <Board
                   setSpace={setSelectedSpace}
                   selectedSpace={selectedSpace}
@@ -278,19 +282,19 @@ export default function Resume() {
               <p>Sudoku</p>
               <div className="h-full w-full flex items-center justify-center gap-5 p-5">
                 <StyledButton
-                  color="quaternary"
+                  color="bg-quaternary"
                   onClick={() => fetchBoard(id, 55)}
                 >
                   Easy
                 </StyledButton>
                 <StyledButton
-                  color="tertiary"
+                  color="bg-tertiary"
                   onClick={() => fetchBoard(id, 40)}
                 >
                   Medium
                 </StyledButton>
                 <StyledButton
-                  color="secondary"
+                  color="bg-secondary"
                   onClick={() => fetchBoard(id, 15)}
                 >
                   Hard
