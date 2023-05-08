@@ -56,6 +56,56 @@ export default function Resume() {
     if (e.key >= 1 && e.key <= 9) {
       check(parseInt(e.key));
     }
+    console.log(e.key);
+    switch (e.key) {
+      case "ArrowUp":
+      case "w":
+        if (selectedSpace !== null) {
+          if (selectedSpace < 9) {
+            setSelectedSpace(selectedSpace + 72);
+            break;
+          }
+          setSelectedSpace(selectedSpace - 9);
+        }
+        break;
+      case "ArrowDown":
+      case "s":
+        if (selectedSpace !== null) {
+          if (selectedSpace >= 72) {
+            setSelectedSpace(selectedSpace - 72);
+            break;
+          }
+          setSelectedSpace(selectedSpace + 9);
+        }
+        break;
+      case "ArrowLeft":
+      case "a":
+        if (selectedSpace !== null) {
+          if (selectedSpace % 9 === 0) {
+            setSelectedSpace(selectedSpace + 8);
+            break;
+          }
+          setSelectedSpace(selectedSpace - 1);
+        }
+        break;
+      case "ArrowRight":
+      case "d":
+        if (selectedSpace !== null) {
+          if (selectedSpace % 9 === 8) {
+            setSelectedSpace(selectedSpace - 8);
+            break;
+          }
+          setSelectedSpace(selectedSpace + 1);
+        }
+        break;
+      case "Escape":
+        if (selectedSpace !== null) {
+          setSelectedSpace(null);
+        }
+        break;
+      default:
+        break;
+    }
   };
 
   const Space = (props) => {
@@ -189,7 +239,7 @@ export default function Resume() {
     console.log(data);
     setBoard(data.board);
     setRemaining(data.remaining);
-    console.log(data.strikes)
+    console.log(data.strikes);
     setStrikes(data.strikes);
     if (data.game_over) {
       setGameOver(true);
@@ -199,7 +249,6 @@ export default function Resume() {
       await sleep(200);
       setSelectionColor("bg-tertiary");
     }
-    setSelectedSpace(null);
   };
 
   const hint = async () => {
@@ -247,7 +296,9 @@ export default function Resume() {
         <div className="h-full w-full flex flex-col align-middle items-center justify-center pt-5">
           {board ? (
             <div>
-              <div className={`grid grid-cols-9 grid-rows-9 text-center aspect-square max-w-[70vmin] w-[70vmin] h-[70vmin] border-2 m-2 ${boardColor}`}>
+              <div
+                className={`grid grid-cols-9 grid-rows-9 text-center aspect-square max-w-[70vmin] w-[70vmin] h-[70vmin] border-2 m-2 ${boardColor}`}
+              >
                 <Board
                   setSpace={setSelectedSpace}
                   selectedSpace={selectedSpace}
