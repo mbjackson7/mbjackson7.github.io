@@ -5,7 +5,7 @@ import Logo from "./Logo3D";
 
 export default function NavBar() {
   return (
-    <div className="h-screen w-[20vmin] min-w-[20vmin] border-r-2 flex flex-col bg-quaternary fixed">
+    <div className="h-screen w-[20vmin] min-w-[20vmin] border-black border-r-2 flex flex-col bg-quaternary fixed">
       <Link to="/" className="max-h-[20vmin] min-h-[20vmin] border-b-2 border-black">
         <Logo className="text-white"/>
       </Link>
