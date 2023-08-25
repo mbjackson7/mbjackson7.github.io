@@ -17,7 +17,7 @@ export default function Home() {
           </p>
         </div>
         <img
-          className="rounded-3xl h-[40vh] object-cover border-4"
+          className="rounded-3xl h-[40vh] object-cover border-black border-4"
           src={profileImage}
           alt="Me"
         />
